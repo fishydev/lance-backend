@@ -1,0 +1,30 @@
+user {
+    id: USER_ID,
+    username: TEXT_USERNAME,
+    email: EMAIL,
+    password: PASSWORD
+    university: TEXT_UNIVNAME,
+    freelancer: BOOL_FREELANCER,
+    description: [
+        about: TEXT_ABOUT,
+        languages: TEXT_LANG,
+        skill: TEXT_SKILLS,
+        education: TEXT_EDUCATION,
+        CERTIFICATION: TEXT_CERTIFICATION
+    ],
+}
+
+job {
+    id: JOB_ID,
+    name: TEXT_JOBNAME,
+    employer_id: USER_ID,
+    freelancer: USER_ID,
+    deadline: DATE,
+    fee: INTEGER,
+    completed: BOOLEAN,
+    payment: [
+        payment_date: DATE,
+        amount: INTEGER,
+    ],
+    category: [CAT1, CAT2, ..., CATN],
+}
