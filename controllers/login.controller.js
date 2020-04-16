@@ -3,14 +3,24 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 exports.login = function (req, res) {
-    loginCredential = User.findOne({username: req.body.username}, 'username password', function (err, user) {
-        
-        if (req.body.password == user.password) {
-            res.send("Login Success")
+    User.count({email: req.body.email}, (err, count) => {
+        if (count < 1) {
+            res.send("Couldn't find any registered account with given email")
         } else {
-            res.send("Login Failed")
-        }
+            loginCredential = User.findOne({email: req.body.email}, 'email password', (err, user) => {
         
-        if (err) return next (err);
+                bcrypt.compare(req.body.password, user.password, (err, same) => {
+                    if (same) {
+                        res.send("Login Success")
+                    } else {
+                        res.send("Wrong Password")
+                    }
+                })
+                
+                if (err) return next (err);
+            })
+        }
     })
+
+    
 }

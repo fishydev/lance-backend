@@ -10,22 +10,25 @@ exports.register = (req, res) => {
         } else {
 
             // TODO Encrypt password
-
-            let user = new User (
-                {
-                    username: req.body.username,
-                    email: req.body.email,
-                    password: req.body.password,
-                    university: req.body.university,
-                }
-            )
-
-            user.save((err) => {
-                if (err) {
-                    return next(err)
-                } else {
-                    res.send("User created successfully");
-                }
+            bcrypt.genSalt(saltRounds, (err, salt) => {
+                bcrypt.hash(req.body.password, salt, (err, hash) => {
+                    let user = new User (
+                        {
+                            username: req.body.username,
+                            email: req.body.email,
+                            password: hash,
+                            university: req.body.university,
+                        }
+                    )
+        
+                    user.save((err) => {
+                        if (err) {
+                            return next(err)
+                        } else {
+                            res.send("User created successfully")
+                        }
+                    })
+                })
             })
         }
     })
