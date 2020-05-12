@@ -1,11 +1,15 @@
 var express = require('express');
 var router = express.Router();
 
-const jobController = require('../controllers/jobs');
+const jobController = require('../controllers/jobs.controller');
 
-// POST new account
-router.post('/job/create', jobController.createJob);
+// POST new job
+router.post('/create', jobController.createJob)
 
-router.get('/job/:id', jobController.getJob);
+router.get('/search/:q', jobController.getJobList)
+
+// router.get('/:id', jobController.findJobById)
+
+
 
 module.exports = router;
