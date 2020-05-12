@@ -5,12 +5,14 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var serveStatic = require('serve-static');
 
-const indexRouter = require('./routes/index')
 const usersRouter = require('./routes/users.route')
 const loginRouter = require('./routes/login.route')
+const jobRouter = require('./routes/jobs.route')
 
 var app = express();
+app.use(serveStatic(__dirname + "/dist"));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,9 +25,17 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Mongoose connection setup
-let dev_db_url = 'mongodb://localhost:27017/lance';
-const mongoDB = process.env.MONGODB_URI || dev_db_url;
-mongoose.connect(mongoDB);
+let dev_db_url = 'mongodb+srv://lance:Jg!L4NC3@cluster0-l7hqg.mongodb.net/test?retryWrites=true&w=majority';
+const mongoDB = dev_db_url;
+// mongoose.connect(mongoDB);
+
+try {
+    mongoose.connect(dev_db_url)
+    console.log("connected to MongoDB")
+} catch (err) {
+    console.log(err.message)
+    process.exit(1)
+}
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error: '));
@@ -35,8 +45,9 @@ app.use(bodyParser.urlencoded({extended: false}))
 
 app.use('/users', usersRouter)
 app.use('/login', loginRouter)
+app.use('/jobs', jobRouter)
 
-let port = 1234;
+var port = process.env.port || 5000
 
 app.listen(port, () => {
   console.log('Server is up and running on port number ' + port);
