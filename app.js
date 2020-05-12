@@ -5,14 +5,12 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var serveStatic = require('serve-static');
 
 const usersRouter = require('./routes/users.route')
 const loginRouter = require('./routes/login.route')
 const jobRouter = require('./routes/jobs.route')
 
 var app = express();
-app.use(serveStatic(__dirname + "/dist"));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
