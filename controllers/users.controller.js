@@ -8,8 +8,6 @@ exports.register = (req, res) => {
         if (count > 0){
             res.send("Duplicate email found")
         } else {
-
-            // TODO Encrypt password
             bcrypt.genSalt(saltRounds, (err, salt) => {
                 bcrypt.hash(req.body.password, salt, (err, hash) => {
                     let user = new User (
