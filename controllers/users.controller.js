@@ -1,5 +1,8 @@
 const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
+const config = require('../config')
+
 const saltRounds = 10;
 
 exports.register = (req, res) => {
@@ -23,7 +26,10 @@ exports.register = (req, res) => {
                         if (err) {
                             return next(err)
                         } else {
-                            res.send("User created successfully")
+                            let token = jwt.sign({ id: user.username }, config.secret, {
+                                expiresIn: 86400
+                            })
+                            res.status(200).send({ auth: true, token: token })
                         }
                     })
                 })
@@ -32,9 +38,13 @@ exports.register = (req, res) => {
     })
 }
 
-exports.getUser = function (req, res) {
-    User.findOne({username: req.params.username},'email username password', function (err, user) {
-        if (err) return next(err);
-        res.send(user);
+exports.getProfile = (req, res) => {
+    let token = req.headers['x-access-token']
+    if (!token) return res.status(201).send({ auth: false, message: 'No token provided' })
+
+    jwt.verify(token, config.secret, (err, decoded) => {
+        if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token' })
+
+        res.status(200).send(decoded)
     })
 }
