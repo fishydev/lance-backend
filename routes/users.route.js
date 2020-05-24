@@ -4,8 +4,10 @@ var router = express.Router()
 const userController = require('../controllers/users.controller')
 
 // POST new account
-router.post('/register/create', userController.register)
+router.post('/register', userController.register)
 
-router.get('/0', userController.getProfile)
+router.get('/getProfile', userController.getProfile)
+
+router.get('/checkLogin', userController.checkLogin)
 
 module.exports = router
