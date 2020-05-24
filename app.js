@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var cors = require('cors')
 
 const usersRouter = require('./routes/users.route')
 const loginRouter = require('./routes/login.route')
@@ -37,6 +38,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error: '));
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
+app.use(cors())
 
 app.use('/users', usersRouter)
 app.use('/login', loginRouter)
