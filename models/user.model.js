@@ -5,7 +5,7 @@ var userSchema = new Schema({
     username: {type: String, required: true, maxlength: 30},
     email: {type: String, required: true, maxlength: 320},
     password: {type: String, required: true},
-    university: {type: String, required: true},
+    university: {type: String, required: false},
     description: [
         {about: {type: String, maxlength: 300}},
         {language: {type: String}},
