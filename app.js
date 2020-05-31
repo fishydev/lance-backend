@@ -48,7 +48,7 @@ app.use('/users', usersRouter)
 app.use('/login', loginRouter)
 app.use('/jobs', jobRouter)
 
-var port = process.env.port || 5000
+var port = process.env.PORT || 5000
 
 app.listen(port, () => {
   console.log('Server is up and running on port number ' + port);
