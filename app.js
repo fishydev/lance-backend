@@ -10,7 +10,6 @@ var cors = require('cors')
 const usersRouter = require('./routes/users.route')
 const loginRouter = require('./routes/login.route')
 const jobRouter = require('./routes/jobs.route')
-const rootRouter = require('./routes/index')
 
 var app = express();
 
@@ -41,10 +40,13 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(cors())
 
+app.get('/', (req, res) => {
+    res.json({ msg: 'Express' })
+})
+
 app.use('/users', usersRouter)
 app.use('/login', loginRouter)
 app.use('/jobs', jobRouter)
-app.use('/', rootRouter)
 
 var port = process.env.port || 5000
 
