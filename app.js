@@ -6,6 +6,7 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var cors = require('cors')
+var router = require(express.Router)
 
 const usersRouter = require('./routes/users.route')
 const loginRouter = require('./routes/login.route')
@@ -64,6 +65,10 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+router.get('/', function(req, res, next) {
+    res.render('index', { title: 'Express' });
 });
 
 module.exports = app;
