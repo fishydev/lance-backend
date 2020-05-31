@@ -6,11 +6,11 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var cors = require('cors')
-var router = require(express.Router)
 
 const usersRouter = require('./routes/users.route')
 const loginRouter = require('./routes/login.route')
 const jobRouter = require('./routes/jobs.route')
+const rootRouter = require('./routes/index')
 
 var app = express();
 
@@ -44,6 +44,7 @@ app.use(cors())
 app.use('/users', usersRouter)
 app.use('/login', loginRouter)
 app.use('/jobs', jobRouter)
+app.use('/', rootRouter)
 
 var port = process.env.port || 5000
 
@@ -65,10 +66,6 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
-});
-
-router.get('/', function(req, res, next) {
-    res.render('index', { title: 'Express' });
 });
 
 module.exports = app;
