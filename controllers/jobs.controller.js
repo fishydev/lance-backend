@@ -13,7 +13,7 @@ exports.postJob = (req, res) => {
 
     job.save((err) => {
         if (err) {
-            return next(err)
+            res.status(500).send({ err, msg: 'Failed'})
         } else {
             res.status(200).send({
                 msg: 'Job added'
