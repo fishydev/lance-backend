@@ -29,9 +29,16 @@ exports.findJobById = (req, res) => {
     })
 }
 
-exports.getJobList = (req, res) => {
-    Job.find({name: req.params.q}, (err, job) => {
+exports.findJobByTitle = (req, res) => {
+    Job.find({title: new RegExp('.*' + req.params.q + '.*', "i")}, (err, jobs) => {
         if (err) res.send(err)
-        res.status(200).send(res)
+        res.status(200).send(jobs)
+    })
+}
+
+exports.getJobList = (req, res) => {
+    Job.find((err, job) => {
+        if (err) res.send(err)
+        res.status(200).send(job)
     })
 }
